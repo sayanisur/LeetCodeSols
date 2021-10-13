@@ -1,0 +1,59 @@
+#Count number of ways to divide a number
+#Recursion and backtracking is used to calculate the possibke scenarios, and eliminate possibilities which do not fall under the scenarios.
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LeetCodePrctice
+{
+    class Program
+    {
+    
+    
+       static void Main(string[] args)
+        {
+            CountWaysDivideSum(8, 4);
+        }
+        
+        public static int CountWaysDivide(int pos, int prev,
+                     int left, int k, List<int> comb,
+                    List<List<int>> results)
+        {
+            // Base Case
+            if (pos == k)
+            {
+                if (left == 0)
+                {
+                    results.Add(new List<int>(comb));
+                    return 1;
+                }
+                else
+                    return 0;
+            }
+
+            // If N is divides completely
+            // into less than k groups
+            if (left == 0)
+                return 0;
+
+            int answer = 0;
+
+            // Put all possible values
+            // greater equal to prev
+            for (int i = prev; i <= left; i++)
+            {
+                comb.Add(i);
+                answer += CountWaysDivide(pos + 1, i,
+                                    left - i, k,comb,results);
+                comb.RemoveAt(comb.Count() - 1);
+            }
+            return answer;
+
+        }
+    }
+    
+    }
